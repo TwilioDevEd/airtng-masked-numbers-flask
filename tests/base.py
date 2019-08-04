@@ -1,6 +1,6 @@
 from flask.ext.testing import TestCase
 
-from airtng_flask import app, config_app
+from airtng_flask import app
 
 
 class BaseTestCase(TestCase):
@@ -10,5 +10,4 @@ class BaseTestCase(TestCase):
         app.config['TESTING'] = True
         app.config['LOGIN_DISABLED'] = True
         app.config['WTF_CSRF_ENABLED'] = True
-
         return app
