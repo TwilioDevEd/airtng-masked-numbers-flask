@@ -62,3 +62,6 @@ target/
 .env.test
 /venv
 .idea
+.vscode
+*.sqlite
+*.db
