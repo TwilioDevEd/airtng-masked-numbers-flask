@@ -4,12 +4,14 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 
 class DefaultConfig(object):
-    SECRET_KEY = 'secret-key'
+    SECRET_KEY = os.environ.get('SECRET_KEY', 'secret-key')
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URI')
+    TWILIO_ACCOUNT_SID = os.environ.get('TWILIO_ACCOUNT_SID', None)
+    TWILIO_API_KEY = os.environ.get('TWILIO_API_KEY', None)
+    TWILIO_API_SECRET = os.environ.get('TWILIO_API_SECRET', None)
+    TWILIO_NUMBER = os.environ.get('TWILIO_NUMBER', None)
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
     DEBUG = False
-    SQLALCHEMY_DATABASE_URI = 'sqlite://'
-    TWILIO_ACCOUNT_SID = 'your_twilio_account_sid'
-    TWILIO_AUTH_TOKEN = 'your_twilio_auth_token'
-    TWILIO_NUMBER = 'your_twilio_number'
 
 
 class DevelopmentConfig(DefaultConfig):
@@ -18,7 +20,7 @@ class DevelopmentConfig(DefaultConfig):
 
 
 class TestConfig(DefaultConfig):
-    SQLALCHEMY_DATABASE_URI = 'sqlite://'
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///:memory:'
     PRESERVE_CONTEXT_ON_EXCEPTION = False
     DEBUG = True
     TESTING = True
@@ -27,6 +29,6 @@ class TestConfig(DefaultConfig):
 
 
 config_env_files = {
-    'test': 'airtng_flask.config.TestConfig',
+    'testing': 'airtng_flask.config.TestConfig',
     'development': 'airtng_flask.config.DevelopmentConfig',
 }

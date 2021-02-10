@@ -26,9 +26,9 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
         pip install coveralls
-    - name: Set up project
+    - name: Run Linter
       run: |
-        python manage.py db upgrade
+        flake8
     - name: Run Tests
       run: |
         coverage run manage.py test

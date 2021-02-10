@@ -1,71 +1,79 @@
-from flask_wtf import Form
-from wtforms import TextField, PasswordField, IntegerField, HiddenField
+from flask_wtf import FlaskForm
+from wtforms import StringField, PasswordField, IntegerField, HiddenField
 from wtforms.validators import DataRequired, Length, Email, URL
 
 
-class RegisterForm(Form):
-    name = TextField(
-            'Tell us your name:',
-            validators=[DataRequired(message="Name is required"),
-                        Length(min=3, message="Name must greater than 3 chars")]
+class RegisterForm(FlaskForm):
+    name = StringField(
+        'Tell us your name:',
+        validators=[
+            DataRequired(message="Name is required"),
+            Length(min=3, message="Name must greater than 3 chars"),
+        ],
     )
-    email = TextField(
-            'Enter your E-mail:',
-            validators=[DataRequired("E-mail is required"), Email(message="Invalid E-mail address")]
+    email = StringField(
+        'Enter your E-mail:',
+        validators=[
+            DataRequired("E-mail is required"),
+            Email(message="Invalid E-mail address"),
+        ],
     )
     password = PasswordField(
-            'Password:',
-            validators=[DataRequired("Password is required")]
+        'Password:', validators=[DataRequired("Password is required")]
     )
-    country_code = TextField(
-            'Country Code:',
-            validators=[DataRequired("Country code is required"),
-                        Length(min=1, max=4, message="Country code must be between 1 and 4 numbers")]
+    country_code = StringField(
+        'Country Code:',
+        validators=[
+            DataRequired("Country code is required"),
+            Length(
+                min=1, max=4, message="Country code must be between 1 and 4 numbers"
+            ),
+        ],
     )
 
     phone_number = IntegerField(
-            'Phone Number:',
-            validators=[DataRequired("Valid phone number is required")]
+        'Phone Number:', validators=[DataRequired("Valid phone number is required")]
     )
 
 
-class LoginForm(Form):
-    email = TextField(
-            'E-mail:',
-            validators=[DataRequired("E-mail is required"), Email(message="Invalid E-mail address")]
+class LoginForm(FlaskForm):
+    email = StringField(
+        'E-mail:',
+        validators=[
+            DataRequired("E-mail is required"),
+            Email(message="Invalid E-mail address"),
+        ],
     )
     password = PasswordField(
-            'Password:',
-            validators=[DataRequired("Password is required")]
+        'Password:', validators=[DataRequired("Password is required")]
     )
 
 
-class VacationPropertyForm(Form):
-    description = TextField(
-            'Description:',
-            validators=[DataRequired("Description is required")]
+class VacationPropertyForm(FlaskForm):
+    description = StringField(
+        'Description:', validators=[DataRequired("Description is required")]
     )
-    image_url = TextField(
-            'Image URL:',
-            validators=[DataRequired("Image Url required"), URL(message="Invalid Image Url")]
+    image_url = StringField(
+        'Image URL:',
+        validators=[
+            DataRequired("Image Url required"),
+            URL(message="Invalid Image Url"),
+        ],
     )
 
 
-class ReservationForm(Form):
-    message = TextField(
-            'Message:',
-            validators=[DataRequired("Message is required")]
-    )
+class ReservationForm(FlaskForm):
+    message = StringField('Message:', validators=[DataRequired("Message is required")])
 
     property_id = HiddenField()
 
 
-class ReservationConfirmationForm(Form):
-    From = TextField('From')
-    Body = TextField('Body')
+class ReservationConfirmationForm(FlaskForm):
+    From = StringField('From')
+    Body = StringField('Body')
 
 
-class ExchangeForm(Form):
-    From = TextField('From')
-    To = TextField('To')
-    Body = TextField('Body')
+class ExchangeForm(FlaskForm):
+    From = StringField('From')
+    To = StringField('To')
+    Body = StringField('Body')

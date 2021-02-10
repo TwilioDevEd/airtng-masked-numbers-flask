@@ -3,18 +3,24 @@ from twilio.twiml.voice_response import VoiceResponse
 
 from airtng_flask import db, bcrypt, app, login_manager
 from flask import g, request
-from flask.ext.login import login_user, logout_user, current_user, login_required
+from flask_login import login_user, logout_user, current_user, login_required
 
-from airtng_flask.forms import RegisterForm, LoginForm, VacationPropertyForm, ReservationForm, \
-    ReservationConfirmationForm, ExchangeForm
+from airtng_flask.forms import (
+    RegisterForm,
+    LoginForm,
+    VacationPropertyForm,
+    ReservationForm,
+    ReservationConfirmationForm,
+    ExchangeForm,
+)
 from airtng_flask.view_helpers import twiml, view, redirect_to, view_with_params
 from airtng_flask.models import init_models_module
 
 init_models_module(db, bcrypt, app)
 
-from airtng_flask.models.user import User
-from airtng_flask.models.vacation_property import VacationProperty
-from airtng_flask.models.reservation import Reservation
+from airtng_flask.models.user import User  # noqa E402
+from airtng_flask.models.vacation_property import VacationProperty # noqa E402
+from airtng_flask.models.reservation import Reservation # noqa E402
 
 
 @app.route('/', methods=["GET", "POST"])
@@ -29,11 +35,14 @@ def register():
                 return view('register', form)
 
             user = User(
-                    name=form.name.data,
-                    email=form.email.data,
-                    password=form.password.data,
-                    phone_number="+{0}{1}".format(form.country_code.data, form.phone_number.data),
-                    area_code=str(form.phone_number.data)[0:3])
+                name=form.name.data,
+                email=form.email.data,
+                password=form.password.data,
+                phone_number="+{0}{1}".format(
+                    form.country_code.data, form.phone_number.data
+                ),
+                area_code=str(form.phone_number.data)[0:3],
+            )
 
             db.session.add(user)
             db.session.commit()
@@ -53,8 +62,9 @@ def login():
         if form.validate_on_submit():
             candidate_user = User.query.filter(User.email == form.email.data).first()
 
-            if candidate_user is None or not bcrypt.check_password_hash(candidate_user.password,
-                                                                        form.password.data):
+            if candidate_user is None or not bcrypt.check_password_hash(
+                candidate_user.password, form.password.data
+            ):
                 form.password.errors.append("Invalid credentials.")
                 return view('login', form)
 
@@ -91,7 +101,9 @@ def new_property():
         if form.validate_on_submit():
             host = User.query.get(current_user.get_id())
 
-            property = VacationProperty(form.description.data, form.image_url.data, host)
+            property = VacationProperty(
+                form.description.data, form.image_url.data, host
+            )
             db.session.add(property)
             db.session.commit()
             return redirect_to('properties')
@@ -123,7 +135,9 @@ def new_reservation(property_id):
     if property_id is not None:
         vacation_property = VacationProperty.query.get(property_id)
 
-    return view_with_params('reservation', vacation_property=vacation_property, form=form)
+    return view_with_params(
+        'reservation', vacation_property=vacation_property, form=form
+    )
 
 
 @app.route('/reservations', methods=["GET"])
@@ -131,30 +145,37 @@ def new_reservation(property_id):
 def reservations():
     user = User.query.get(current_user.get_id())
 
-    reservations_as_host = Reservation.query \
-        .filter(VacationProperty.host_id == current_user.get_id() and len(VacationProperty.reservations) > 0) \
-        .join(VacationProperty) \
-        .filter(Reservation.vacation_property_id == VacationProperty.id) \
+    reservations_as_host = (
+        Reservation.query.filter(
+            VacationProperty.host_id == current_user.get_id()
+            and len(VacationProperty.reservations) > 0
+        )
+        .join(VacationProperty)
+        .filter(Reservation.vacation_property_id == VacationProperty.id)
         .all()
+    )
 
     reservations_as_guest = user.reservations
 
-    return view_with_params('reservations',
-                            reservations_as_guest=reservations_as_guest,
-                            reservations_as_host=reservations_as_host)
+    return view_with_params(
+        'reservations',
+        reservations_as_guest=reservations_as_guest,
+        reservations_as_host=reservations_as_host,
+    )
 
 
 @app.route('/reservations/confirm', methods=["POST"])
 def confirm_reservation():
     form = ReservationConfirmationForm()
-    sms_response_text = "Sorry, it looks like you don't have any reservations to respond to."
+    sms_response_text = (
+        "Sorry, it looks like you don't have any reservations to respond to."
+    )
 
     user = User.query.filter(User.phone_number == form.From.data).first()
-    reservation = Reservation \
-        .query \
-        .filter(Reservation.status == 'pending'
-                and Reservation.vacation_property.host.id == user.id) \
-        .first()
+    reservation = Reservation.query.filter(
+        Reservation.status == 'pending'
+        and Reservation.vacation_property.host.id == user.id
+    ).first()
 
     if reservation is not None:
 
@@ -166,7 +187,9 @@ def confirm_reservation():
 
         db.session.commit()
 
-        sms_response_text = "You have successfully {0} the reservation".format(reservation.status)
+        sms_response_text = "You have successfully {0} the reservation".format(
+            reservation.status
+        )
         reservation.notify_guest()
 
     return twiml(_respond_message(sms_response_text))
@@ -200,22 +223,23 @@ def before_request():
     g.user = current_user
     uri_pattern = request.url_rule
     if current_user.is_authenticated and (
-                        uri_pattern == '/' or uri_pattern == '/login' or uri_pattern == '/register'):
+        uri_pattern == '/' or uri_pattern == '/login' or uri_pattern == '/register'
+    ):
         redirect_to('home')
 
 
 @login_manager.user_loader
-def load_user(id):
+def load_user(user_id):
     try:
-        return User.query.get(id)
-    except:
+        return User.query.get(user_id)
+    except Exception:
         return None
 
 
 def _gather_outgoing_phone_number(incoming_phone_number, anonymous_phone_number):
-    reservation = Reservation.query \
-        .filter(Reservation.anonymous_phone_number == anonymous_phone_number) \
-        .first()
+    reservation = Reservation.query.filter(
+        Reservation.anonymous_phone_number == anonymous_phone_number
+    ).first()
 
     if reservation is None:
         raise Exception('Reservation not found for {0}'.format(incoming_phone_number))
