@@ -4,7 +4,6 @@
 
 # Airtng App: Part 2 - Workflow Automation with Twilio Python | Flask
 
-[![Build Status](https://travis-ci.org/TwilioDevEd/airtng-masked-numbers-flask.svg?branch=master)](https://travis-ci.org/TwilioDevEd/airtng-masked-numbers-flask)
 ![](https://github.com/TwilioDevEd/airtng-masked-numbers-flask/workflows/Flask/badge.svg)
 
 Protect your customers' privacy by creating a seamless interaction by provisioning Twilio numbers on the fly. Route all voice calls and messages through your very own 3rd party. This allows you to control the interaction between your customers, while putting your customer's privacy first.
