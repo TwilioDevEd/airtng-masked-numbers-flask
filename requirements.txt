@@ -1,7 +1,7 @@
 alembic==1.5.8
 appdirs==1.4.4
 bcrypt==3.2.0
-black==21.4b1
+black==21.4b2
 blinker==1.4
 certifi==2020.12.5
 cffi==1.14.5
