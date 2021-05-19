@@ -21,7 +21,7 @@ Flask-Testing==0.8.1
 Flask-WTF==0.14.3
 idna==2.10
 itsdangerous==2.0.0
-Jinja2==3.0.0
+Jinja2==3.0.1
 Mako==1.1.4
 MarkupSafe==2.0.1
 mccabe==0.6.1
