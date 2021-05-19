@@ -23,7 +23,7 @@ idna==2.10
 itsdangerous==2.0.0
 Jinja2==3.0.0
 Mako==1.1.4
-MarkupSafe==2.0.0
+MarkupSafe==2.0.1
 mccabe==0.6.1
 mypy-extensions==0.4.3
 pathspec==0.8.1
