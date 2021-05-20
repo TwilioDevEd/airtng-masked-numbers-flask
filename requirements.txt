@@ -6,7 +6,7 @@ blinker==1.4
 certifi==2020.12.5
 cffi==1.14.5
 chardet==4.0.0
-click==8.0.0
+click==8.0.1
 coverage==5.5
 dnspython==2.1.0
 email-validator==1.1.2
