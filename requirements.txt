@@ -43,5 +43,5 @@ twilio==6.63.2
 typed-ast==1.4.3
 typing-extensions==3.10.0.2
 urllib3==1.26.7
-Werkzeug==2.0.1
+Werkzeug==2.0.2
 WTForms==2.3.3
