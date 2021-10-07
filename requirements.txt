@@ -1,4 +1,4 @@
-alembic==1.7.3
+alembic==1.7.4
 appdirs==1.4.4
 bcrypt==3.2.0
 black==21.9b0
