@@ -37,7 +37,7 @@ pytz==2021.3
 regex==2021.10.8
 requests==2.26.0
 six==1.16.0
-SQLAlchemy==1.4.25
+SQLAlchemy==1.4.26
 toml==0.10.2
 twilio==6.63.2
 typed-ast==1.4.3
