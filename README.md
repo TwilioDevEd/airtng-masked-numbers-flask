@@ -16,7 +16,7 @@ You will need to provision at least one Twilio number with SMS capabilities so t
 
 Remember that the number where you change the _SMS webhook_ must be the same one you set on the `TwilioPhoneNumber` settings.
 
-![Configure Voice](http://howtodocs.s3.amazonaws.com/twilio-number-config-all-med.gif)
+[Learn how to configure a Twilio phone number for Programmable Voice](https://www.twilio.com/docs/voice/tutorials/how-to-respond-to-incoming-phone-calls-python#buy-and-configure-a-phone-number)
 
  To start using `ngrok` in our project you'll have execute to the following line in the _command prompt_.
 
@@ -35,11 +35,11 @@ http://<your-ngrok-subdomain>.ngrok.io/reservations/confirm
 
 This project is configured to use a _TwiML App_ that allows us to easily set the voice URLs for all Twilio phone numbers we purchase in this app.
 
-![Create a new TwiML app](https://www.twilio.com/console/sms/runtime/twiml-apps) and use its `Sid` as the `TwiMLApplicationSID` application setting.
+[Create a new TwiML app](https://console.twilio.com/us1/develop/voice/manage/twiml-apps?frameUrl=%2Fconsole%2Fvoice%2Ftwiml%2Fapps%3Fx-target-region%3Dus1) and use its `Sid` as the `TwiMLApplicationSID` application setting.
 
-![Creating a TwiML App](http://howtodocs.s3.amazonaws.com/call-tracking-twiml-app.gif)
+[Learn more about creating a TwiML app here](https://support.twilio.com/hc/en-us/articles/223180928-How-Do-I-Create-a-TwiML-App-)
 
-Once you have created your TwiML app, configure your Twilio phone number to use it ([instructions here](https://www.twilio.com/help/faq/twilio-client/how-do-i-create-a-twiml-app)).
+Once you have created your TwiML app, configure your Twilio phone number to use it ([instructions here](https://support.twilio.com/hc/en-us/articles/223180928-How-Do-I-Create-a-TwiML-App-)).
 
 If you don't have a Twilio phone number yet, you can purchase a new number in your [Twilio Account Dashboard](https://www.twilio.com/user/account/phone-numbers/incoming).
 
