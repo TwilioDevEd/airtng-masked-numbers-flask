@@ -212,7 +212,10 @@ def exchange_voice():
     outgoing_number = _gather_outgoing_phone_number(form.From.data, form.To.data)
 
     response = VoiceResponse()
-    response.play("http://howtodocs.s3.amazonaws.com/howdy-tng.mp3")
+    response.say(
+        "Hello, thanks for calling Air T N G. "
+        "...Please hold while we connect your call."
+    )
     response.dial(outgoing_number)
     return twiml(response)
 
