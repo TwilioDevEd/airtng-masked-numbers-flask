@@ -29,7 +29,7 @@ mypy-extensions==0.4.3
 pathspec==0.9.0
 pycodestyle==2.6.0
 pycparser==2.21
-pyflakes==2.2.0
+pyflakes==2.5.0
 PyJWT==1.7.1
 python-dateutil==2.8.2
 python-editor==1.0.4
